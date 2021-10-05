@@ -1,25 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { RedisService } from '../../redis/redis.service';
 
 export type AppStatus = {
-  status: string;
-  redis: string;
-  startedAt: string;
+	status: string;
+	startedAt: string;
 };
 
 @Injectable()
 export class AppService {
-  private startedAt: Date;
+	private readonly startedAt = new Date();
 
-  constructor(private readonly redisService: RedisService) {
-    this.startedAt = new Date();
-  }
-
-  getStatus(): AppStatus {
-    return {
-      status: 'ok',
-      redis: this.redisService.getRedisStatus(),
-      startedAt: this.startedAt.toISOString(),
-    };
-  }
+	getStatus(): AppStatus {
+		return {
+			status: 'ok',
+			startedAt: this.startedAt.toISOString(),
+		};
+	}
 }
